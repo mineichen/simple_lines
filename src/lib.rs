@@ -1,18 +1,15 @@
 #![deny(missing_docs)]
 
 //! # Simple and secure line iterators
-//! Simple line iterator which prevents OutOfMemory if an attacker inputs very long sequences without a delimiter by applying a max_capacity. 
+//! Simple line iterator which prevents OutOfMemory if an attacker inputs very long sequences without a delimiter by applying a max_capacity.
 //! The implementation reuses the last `std::rc::Rc<String>` on calling next() if it isnt used anymore.
-//! 
+//!
 //! It currently uses the linebuffer library under the hood to provid a much simpler interface with fewer pitfalls:
 //!  - Implements `std::iter::Iterator`
 //!  - Incomplete lines result in `Err(Incomplete<Rc<String>>)` to force users to think about this scenario
 //!  - Ok variant should be compatible with `std::io::BufReader` (beside wrapping in Rc)
 //!  - Invalid UTF8 results in `Err(Encoding)`
-use {
-    std::{io::Read},
-    linereader::LineReader
-};
+use {linereader::LineReader, std::io::Read};
 
 mod bound;
 
@@ -48,12 +45,12 @@ pub trait ReadExt {
 impl<T: Read> ReadExt for T {
     type Read = T;
     fn lines_rc(self) -> bound::RcLineIterator<T> {
-        self.lines_rc_with_capacity(64*1024)
+        self.lines_rc_with_capacity(64 * 1024)
     }
     fn lines_rc_with_capacity(self, buffer_capacity: usize) -> bound::RcLineIterator<Self::Read> {
         bound::RcLineIterator::new(
             LineReader::with_capacity(buffer_capacity, self),
-            buffer_capacity
+            buffer_capacity,
         )
     }
 }
@@ -75,8 +72,8 @@ pub enum Error<T: std::fmt::Debug> {
 
 #[cfg(test)]
 mod tests {
-    use std::io::{BufReader, BufRead, Cursor};
     use super::*;
+    use std::io::{BufRead, BufReader, Cursor};
 
     #[test]
     fn return_whitespace_line() {
@@ -110,7 +107,9 @@ mod tests {
         for (own_line, rc_line) in own_iter.by_ref().zip(rc_iter.by_ref()) {
             match own_line {
                 Ok(o) => assert_eq!(o, *rc_line.unwrap()),
-                Err(_) => { rc_line.unwrap_err(); }
+                Err(_) => {
+                    rc_line.unwrap_err();
+                }
             }
         }
         assert_eq!(own_iter.count(), 0);
