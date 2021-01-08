@@ -1,11 +1,17 @@
 [package]
-name = "reflines"
+name = "simple_lines"
 version = "0.0.1"
 authors = ["Markus Ineichen <kusi.ineichen@gmail.com>"]
+description = "Simple and secure line iterators to be used with all implementations of std::io::Read"
+repository = "https://github.com/mineichen/simple_lines"
+keywords = ["lines", "iterator", "reference", "shared"]
+categories = ["encoding", "parsing"]
+readme = "README.md"
+license = "MIT"
 edition = "2018"
 
 [[bench]]
-name = "bufread_lines"
+name = "read_lines"
 harness = false
 
 [dependencies]

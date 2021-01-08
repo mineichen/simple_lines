@@ -1,13 +1,13 @@
 use  {
     criterion::{black_box, criterion_group, criterion_main, Criterion},
-    reflines::ReadExt,
+    simple_lines::ReadExt,
     std::io::{Cursor, BufRead}
 };
 
 fn compare_bufread_lines(c: &mut Criterion) {
     const FILE : &str = "Dickens_Charles_Pickwick_Papers.xml";
     let input = std::fs::read_to_string(FILE).expect("Download input from http://hur.st/Dickens_Charles_Pickwick_Papers.xml.xz and extract it into the project root");
-    c.bench_function("reflines::LineIterable::lines_rc_bound()", |b| b.iter(|| {
+    c.bench_function("simple_lines::LineIterable::lines_rc()", |b| b.iter(|| {
         assert_eq!(33532728, Cursor::new(black_box(input.clone()))
             .lines_rc()
             .filter_map(Result::ok)

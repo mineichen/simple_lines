@@ -1,5 +1,3 @@
-use std::future::pending;
-
 use {
     std::{rc::Rc, io::Read},
     linereader::LineReader

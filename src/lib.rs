@@ -1,4 +1,3 @@
-
 #![deny(missing_docs)]
 
 //! # Simple and secure line iterators
@@ -11,7 +10,7 @@
 //!  - Ok variant should be compatible with `std::io::BufReader` (beside wrapping in Rc)
 //!  - Invalid UTF8 results in `Err(Encoding)`
 use {
-    std::{io::Read, rc::Rc},
+    std::{io::Read},
     linereader::LineReader
 };
 
@@ -24,17 +23,19 @@ pub trait ReadExt {
     /// Creates a RcLineIterator with a custom buffer capacity
     fn lines_rc_with_capacity(self, buffer_capacity: usize) -> bound::RcLineIterator<Self::Read>;
     /// Creates a RcLineIterator with the default capacity of 64kb
+    ///
+    /// # Examples
     /// ```
-    /// use reflines::ReadExt;
+    /// use simple_lines::ReadExt;
     ///
     /// let cursor = std::io::Cursor::new("12345678\r\n123");
     /// let mut lines = cursor.lines_rc_with_capacity(5);
-    /// if let reflines::Error::Incomplete(x) = lines.next().unwrap().unwrap_err() {
+    /// if let simple_lines::Error::Incomplete(x) = lines.next().unwrap().unwrap_err() {
     ///     assert_eq!(*x, "12345");
     /// } else {
     ///     panic!("Expected incomplete if EOL was not detected");
     /// }
-    /// if let reflines::Error::Incomplete(x) = lines.next().unwrap().unwrap_err() {
+    /// if let simple_lines::Error::Incomplete(x) = lines.next().unwrap().unwrap_err() {
     ///     assert_eq!(*x, "678");
     /// } else {
     ///     panic!("Expected incomplete line for the rest");
