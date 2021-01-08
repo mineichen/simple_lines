@@ -10,9 +10,9 @@ It currently uses the linebuffer library under the hood but provides a much simp
 ## cargo bench (version 0.0.1)
 
 Tests performed using ['Dickens_Charles_Pickwick_Papers.xml'](http://hur.st/Dickens_Charles_Pickwick_Papers.xml.xz),
-which is 34.4 MB and 845k lines long.
+which is 34.4 MB big and 845k lines long.
 
-### Westmere Xeon 2.1GHz, FreeBSD/ZFS.
+### Bacbook Pro 2019 2.6 GHz 6-Core Intel Core i7
 ```
 simple_lines::LineIterable::lines_rc()
 time:   [48.811 ms **49.312** ms 49.827 ms

@@ -60,7 +60,7 @@ impl<T: Read> ReadExt for T {
 
 /// Result of calling ReadExt::lines_rc
 #[derive(thiserror::Error, Debug)]
-pub enum Error<T: AsRef<String> + std::fmt::Debug> {
+pub enum Error<T: std::fmt::Debug> {
     /// Forwarded Errors from the underlying reader
     #[error("io")]
     Io(#[from] std::io::Error),
